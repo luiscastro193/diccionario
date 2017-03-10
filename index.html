@@ -25,10 +25,10 @@
 				};
 				
 				reader.onerror = function(event) {
-					document.getElementById("errorMsg").innerHTML = "Error";
+					document.getElementById("errorMsg").innerHTML = "Error al cargar el archivo";
 				};
 				
-				document.getElementById("formCadena").disbled = true;
+				document.getElementById("formCadena").disabled = true;
 				document.getElementById("errorMsg").innerHTML = '';
 				reader.readAsText(filePath.files[0]);
 			}
