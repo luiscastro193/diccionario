@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<tittle>Diccionario inglés-español</tittle>
+		<meta name="author" content="Luis Castro Martín">
+	</head>
+
+	<body>
+		<br><br>
+		<input type="file" id="fileInput" onchange='readText(this)' />
+		<p id="errorMsg"></p>
+		<script>
+			var reader = new FileReader();
+			var diccionario;
+			
+			function readText(filePath) {
+				reader.onload = function(event) {
+					diccionario = new Set();
+					texto = event.target.result.toLowerCase();
+					var expresion = /[a-z]+-?[a-z]+/g;
+					var palabra;
+					while (palabra = expresion.exec(texto)) diccionario.add(String(palabra));
+					document.getElementById("formCadena").disabled = false;
+				};
+				
+				reader.onerror = function(event) {
+					document.getElementById("errorMsg").innerHTML = "Error";
+				};
+				
+				document.getElementById("formCadena").disbled = true;
+				document.getElementById("errorMsg").innerHTML = '';
+				reader.readAsText(filePath.files[0]);
+			}
+		</script>
+		<br>
+		<form autocomplete="off" onsubmit="return false">
+			<input type="text" id="formCadena" onmouseenter="this.focus()" onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
+		</form>
+		<ul id=enlaces>
+		</ul>
+		<script>
+			function buscarPalabra(cadena) {
+				var ulist = document.getElementById("enlaces");
+				ulist.innerHTML = ''
+				
+				for (let palabra of diccionario) {
+					if (palabra.includes(cadena)) {
+						var a = document.createElement("a");
+						var newItem = document.createElement("li");
+						
+						a.textContent = palabra;
+						a.setAttribute('href', "http://www.wordreference.com/enes/" + palabra);
+						a.setAttribute('target', "_blank");
+						a.setAttribute('onclick', 'añadirLinksExtra(this.parentElement, this.textContent)');
+						newItem.appendChild(a);
+						ulist.appendChild(newItem);
+						
+						if (ulist.childElementCount >= 10) break;
+					}
+				}
+			};
+			
+			function añadirLinksExtra(item, palabra) {
+				if (item.childElementCount <= 1) {
+					var a1 = document.createElement("a");
+					var a2 = document.createElement("a");
+					var a3 = document.createElement("a");
+				
+					a1.textContent = "OxfordES";
+					a2.textContent = "OxfordEN";
+					a3.textContent = "UrbanDictionary";
+				
+					a1.setAttribute('href', "https://es.oxforddictionaries.com/search?filter=from_english&query=" + palabra);
+					a2.setAttribute('href', "https://en.oxforddictionaries.com/search?filter=noad&query=" + palabra);
+					a3.setAttribute('href', "http://www.urbandictionary.com/define.php?term=" + palabra);
+				
+					a1.setAttribute('target', "_blank");
+					a2.setAttribute('target', "_blank");
+					a3.setAttribute('target', "_blank");
+					
+					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
+					item.appendChild(a1);
+					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
+					item.appendChild(a2);
+					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
+					item.appendChild(a3);
+				}
+			};
+		</script>
+	</body>
+</html>
