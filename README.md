@@ -1,8 +1,6 @@
 Diccionario
 ===========
 
-Programa por consola para traducir lo más rápido posible de inglés a español.
+Aplicación web para traducir lo más rápido posible de inglés a español.
 
-Por defecto abrirá Firefox. Se puede cambiar en el source (línea 65).
-
-Para Linux y Mac.
+Uso: Seleccionar el archivo sobre el que construir el diccionario y buscar subcadenas en él.
