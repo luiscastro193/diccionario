@@ -34,14 +34,20 @@
 			}
 		</script>
 		<br>
-		<form autocomplete="off" onsubmit="return false">
+		<form autocomplete="off" onsubmit="return abrirEnlace()">
 			<input type="text" id="formCadena" onmouseenter="this.focus()" onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
 		</form>
 		<ul id=enlaces>
 		</ul>
 		<script>
+			var ulist = document.getElementById("enlaces");
+		
+			function abrirEnlace(){
+				if (ulist.childElementCount == 1) ulist.firstChild.firstChild.click();
+				return false;
+			};
+		
 			function buscarPalabra(cadena) {
-				var ulist = document.getElementById("enlaces");
 				ulist.innerHTML = ''
 				
 				for (let palabra of diccionario) {
