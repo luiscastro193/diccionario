@@ -43,11 +43,16 @@
 		</script>
 		<br>
 		<form autocomplete="off" onsubmit="return abrirEnlace()">
-			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()" onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
+			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
+			onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
 		</form>
 		<ul id=enlaces>
 		</ul>
 		<script>
+			window.addEventListener('focus', function() {
+				document.getElementById("formCadena").focus();
+			});
+			
 			var ulist = document.getElementById("enlaces");
 		
 			function abrirEnlace(){
