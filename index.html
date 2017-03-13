@@ -25,10 +25,10 @@
 			function readText(filePath) {
 				reader.onload = function(event) {
 					diccionario = new Set();
-					texto = event.target.result.toLowerCase();
-					var expresion = /[a-z]+-?[a-z]+/g;
+					var texto = event.target.result;
+					var expresion = /[^\W\d_]+-?[^\W\d_]+/g;
 					var palabra;
-					while (palabra = expresion.exec(texto)) diccionario.add(String(palabra));
+					while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
 					document.getElementById("formCadena").disabled = false;
 				};
 				
