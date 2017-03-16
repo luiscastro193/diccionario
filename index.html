@@ -23,7 +23,7 @@
 			var diccionario;
 			
 			function readText(filePath) {
-				console.log("Hola Cris!");
+				console.log("Guapa!");
 				reader.onload = function(event) {
 					diccionario = new Set();
 					var texto = event.target.result;
@@ -45,7 +45,7 @@
 		<br>
 		<form autocomplete="off" onsubmit="return abrirEnlace()">
 			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
-				onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
+				onfocus="this.value = ''" onchange='buscarPalabra(this.value.toLowerCase())' disabled >
 		</form>
 		<ul id=enlaces>
 		</ul>
