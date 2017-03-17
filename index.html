@@ -58,7 +58,7 @@
 			function abrirEnlace(){
 				if (ulist.childElementCount == 1) ulist.firstChild.firstChild.click();
 				return false;
-			};
+			}
 		
 			function buscarPalabra(cadena) {
 				ulist.innerHTML = ''
@@ -78,7 +78,7 @@
 						if (ulist.childElementCount >= 10) break;
 					}
 				}
-			};
+			}
 			
 			function aniadirLinksExtra(item, palabra) {
 				if (item.childElementCount <= 1) {
@@ -105,7 +105,7 @@
 					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
 					item.appendChild(a3);
 				}
-			};
+			}
 		</script>
 	</body>
 </html>
