@@ -34,6 +34,7 @@
 			function readText(filePath) {
 				formCadena.disabled = true;
 				errorMsg.innerHTML = "Cargando...";
+				diccionario = new Set();
 				
 				var reader = new FileReader();
 				
@@ -53,14 +54,15 @@
 						
 							for (var i = 1; i <= maxPages; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
-									return page.getTextContent().then(function(text){
-										return text.items.map(function (s) { return s.str; }).join();
+									page.getTextContent().then(function(text){
+										text.items.map(function (s) { aniadirPalabras(s.str); });
 									});
 								}));
 							}
 						
 							Promise.all(countPromises).then(function (texts) {
-								cargarDiccionario(texts.join());
+								formCadena.disabled = false;
+								errorMsg.innerHTML = '';
 							});
 						}, function(reason){
 							errorMsg.innerHTML = reason.message;
@@ -71,20 +73,19 @@
 				}
 				else{
 					reader.onload = function(event) {
-						cargarDiccionario(event.target.result);
+						aniadirPalabras(event.target.result);
+						formCadena.disabled = false;
+						errorMsg.innerHTML = '';
 					}
 					
 					reader.readAsText(filePath.files[0]);
 				}
 			}
 			
-			function cargarDiccionario(texto){
-				diccionario = new Set();
+			function aniadirPalabras(texto){
 				var expresion = /[^\W\d_]+-?[^\W\d_]+/g;
 				var palabra;
 				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
-				formCadena.disabled = false;
-				errorMsg.innerHTML = '';
 			}
 			
 			window.addEventListener('focus', function() {
