@@ -19,16 +19,26 @@
 		<p id="description">Diccionario inglés-español</p>
 		<input type="file" id="fileInput" onchange='readText(this)' />
 		<p id="errorMsg"></p>
+		<br>
+		<form autocomplete="off" onsubmit="return abrirEnlace()">
+			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
+				onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
+		</form>
+		<ul id="enlaces">
+		</ul>
 		<script>
 			var reader = new FileReader();
 			var diccionario;
+			var errorMsg = document.getElementById("errorMsg");
+			var formCadena = document.getElementById("formCadena");
+			var ulist = document.getElementById("enlaces");
 			
 			function readText(filePath) {
-				document.getElementById("formCadena").disabled = true;
-				document.getElementById("errorMsg").innerHTML = '';
+				formCadena.disabled = true;
+				errorMsg.innerHTML = "Cargando...";
 				
 				reader.onerror = function(event) {
-					document.getElementById("errorMsg").innerHTML = "Error al cargar el archivo.";
+					errorMsg.innerHTML = "Error al cargar el archivo.";
 				};
 				
 				var fileName = filePath.files[0].name;
@@ -54,7 +64,7 @@
 								cargarDiccionario(texts.join());
 							});
 						}, function(reason){
-							document.getElementById("errorMsg").innerHTML = reason.message;
+							errorMsg.innerHTML = reason.message;
 						});
 					};
 				
@@ -74,22 +84,13 @@
 				var expresion = /[^\W\d_]+-?[^\W\d_]+/g;
 				var palabra;
 				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
-				document.getElementById("formCadena").disabled = false;
+				formCadena.disabled = false;
+				errorMsg.innerHTML = '';
 			}
-		</script>
-		<br>
-		<form autocomplete="off" onsubmit="return abrirEnlace()">
-			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
-				onfocus="this.value = ''" oninput='buscarPalabra(this.value.toLowerCase())' disabled >
-		</form>
-		<ul id="enlaces">
-		</ul>
-		<script>
-			window.addEventListener('focus', function() {
-				document.getElementById("formCadena").focus();
-			});
 			
-			var ulist = document.getElementById("enlaces");
+			window.addEventListener('focus', function() {
+				formCadena.focus();
+			});
 		
 			function abrirEnlace(){
 				if (ulist.childElementCount == 1) ulist.firstChild.firstChild.click();
