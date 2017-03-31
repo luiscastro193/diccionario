@@ -53,6 +53,8 @@
 							Promise.all(countPromises).then(function (texts) {
 								cargarDiccionario(texts.join());
 							});
+						}, function(reason){
+							document.getElementById("errorMsg").innerHTML = reason.message;
 						});
 					};
 				
