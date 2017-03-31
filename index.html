@@ -54,8 +54,10 @@
 						
 							for (var i = 1; i <= maxPages; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
-									page.getTextContent().then(function(text){
-										text.items.map(function (s) { aniadirPalabras(s.str); });
+									return page.getTextContent().then(function(text){
+										"use strict";
+										for (let item of text.items)
+											aniadirPalabras(item.str);
 									});
 								}));
 							}
