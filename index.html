@@ -26,7 +26,6 @@
 		</form>
 		<ul id="enlaces"></ul>
 		<script>
-			var reader = new FileReader();
 			var diccionario;
 			var errorMsg = document.getElementById("errorMsg");
 			var formCadena = document.getElementById("formCadena");
@@ -35,6 +34,8 @@
 			function readText(filePath) {
 				formCadena.disabled = true;
 				errorMsg.innerHTML = "Cargando...";
+				
+				var reader = new FileReader();
 				
 				reader.onerror = function(event) {
 					errorMsg.innerHTML = "Error al cargar el archivo.";
@@ -45,9 +46,8 @@
 				if (fileName.substr(fileName.lastIndexOf('.')+1).toLowerCase() == "pdf") {
 					reader.onload = function(event) {
 						PDFJS.disableWorker = true;
-						var array = new Uint8Array(event.target.result);
-					
-						PDFJS.getDocument(array).then(function(pdf) {
+						
+						PDFJS.getDocument(new Uint8Array(event.target.result)).then(function(pdf) {
 							var maxPages = pdf.pdfInfo.numPages;
 							var countPromises = [];
 						
