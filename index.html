@@ -12,6 +12,7 @@
 			ga('create', 'UA-93469643-1', 'auto');
 			ga('send', 'pageview');
 		</script>
+		<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 	</head>
 
 	<body>
@@ -23,22 +24,55 @@
 			var diccionario;
 			
 			function readText(filePath) {
-				reader.onload = function(event) {
-					diccionario = new Set();
-					var texto = event.target.result;
-					var expresion = /[^\W\d_]+-?[^\W\d_]+/g;
-					var palabra;
-					while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
-					document.getElementById("formCadena").disabled = false;
-				};
-				
-				reader.onerror = function(event) {
-					document.getElementById("errorMsg").innerHTML = "Error al cargar el archivo";
-				};
-				
 				document.getElementById("formCadena").disabled = true;
 				document.getElementById("errorMsg").innerHTML = '';
-				reader.readAsText(filePath.files[0]);
+				
+				reader.onerror = function(event) {
+					document.getElementById("errorMsg").innerHTML = "Error al cargar el archivo.";
+				};
+				
+				var fileName = filePath.files[0].name;
+				
+				if (fileName.substr(fileName.lastIndexOf('.')+1).toLowerCase() == "pdf") {
+					reader.onload = function(event) {
+						PDFJS.disableWorker = true;
+						var array = new Uint8Array(event.target.result);
+					
+						PDFJS.getDocument(array).then(function(pdf) {
+							var maxPages = pdf.pdfInfo.numPages;
+							var countPromises = [];
+						
+							for (var i = 1; i <= maxPages; i++) {
+								countPromises.push(pdf.getPage(i).then(function(page){
+									return page.getTextContent().then(function(text){
+										return text.items.map(function (s) { return s.str; }).join();
+									});
+								}));
+							}
+						
+							Promise.all(countPromises).then(function (texts) {
+								cargarDiccionario(texts.join());
+							});
+						});
+					};
+				
+					reader.readAsArrayBuffer(filePath.files[0]);
+				}
+				else{
+					reader.onload = function(event) {
+						cargarDiccionario(event.target.result);
+					}
+					
+					reader.readAsText(filePath.files[0]);
+				}
+			}
+			
+			function cargarDiccionario(texto){
+				diccionario = new Set();
+				var expresion = /[^\W\d_]+-?[^\W\d_]+/g;
+				var palabra;
+				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
+				document.getElementById("formCadena").disabled = false;
 			}
 		</script>
 		<br>
