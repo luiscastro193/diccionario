@@ -85,7 +85,7 @@
 			}
 			
 			function aniadirPalabras(texto){
-				var expresion = /[^\W\d_]+(?:-?[^\W\d_]+)*/g;
+				var expresion = /[^\W\d_]+(?:-[^\W\d_]+)*/g;
 				var palabra;
 				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
 			}
