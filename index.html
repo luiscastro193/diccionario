@@ -112,7 +112,7 @@
 						a.textContent = palabra;
 						a.setAttribute('href', "http://www.wordreference.com/enes/" + palabra);
 						a.setAttribute('target', "_blank");
-						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, " + palabra + ")");
+						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
 						ulist.appendChild(newItem);
 						
