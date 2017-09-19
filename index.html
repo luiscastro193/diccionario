@@ -96,7 +96,7 @@
 			});
 			
 			function abrirEnlace(){
-				ulist.lastChild.firstChild.click();
+				if (ulist.lastChild) ulist.lastChild.firstChild.click();
 				return false;
 			}
 			
