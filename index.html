@@ -113,10 +113,7 @@
 					}
 				}
 				
-				if (ulist.childElementCount == 1) {
-					window.open(ulist.firstChild.firstChild.href, "_blank");
-					ulist.firstChild.firstChild.onclick();
-				}
+				if (ulist.childElementCount == 1) ulist.firstChild.firstChild.click();
 			}
 			
 			function aniadirLinksExtra(item, palabra) {
