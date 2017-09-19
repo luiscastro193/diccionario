@@ -96,7 +96,7 @@
 			});
 			
 			function abrirEnlace(){
-				if (ulist.childElementCount == 1) ulist.firstChild.firstChild.click();
+				ulist.lastChild.firstChild.click();
 				return false;
 			}
 			
@@ -120,7 +120,7 @@
 					}
 				}
 				
-				abrirEnlace();
+				if (ulist.childElementCount == 1) abrirEnlace();
 			}
 			
 			function aniadirLinksExtra(item, palabra) {
