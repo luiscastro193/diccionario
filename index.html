@@ -13,7 +13,7 @@
 		<input type="file" id="fileInput" onchange="readText(this)" />
 		<p id="errorMsg"></p>
 		<br>
-		<form autocomplete="off" onsubmit="abrirEnlace(); return false">
+		<form autocomplete="off" onsubmit="enviar(this); return false">
 			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
 				onfocus="this.value = ''" oninput="buscarPalabra(this.value.toLowerCase())" disabled >
 		</form>
@@ -23,7 +23,7 @@
 			var errorMsg = document.getElementById("errorMsg");
 			var formCadena = document.getElementById("formCadena");
 			var ulist = document.getElementById("enlaces");
-			var trusted;
+			var inputTrusted, submitTrusted;
 			
 			function readText(filePath) {
 				formCadena.disabled = true;
@@ -92,6 +92,24 @@
 				if (ulist.lastChild) ulist.lastChild.firstChild.click();
 			}
 			
+			function enviar(form) {
+				if (submitTrusted)
+						abrirEnlace();
+
+				else if (submitTrusted === undefined && ulist.lastChild) {
+					if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
+						submitTrusted = true;
+						ulist.lastChild.firstChild.onclick();
+					}
+					else {
+						submitTrusted = false;
+						form.onkeyup = function(event) {
+							if (event.keyCode == 13) abrirEnlace();
+						};
+					}
+				}
+			}
+			
 			function buscarPalabra(cadena) {
 				"use strict";
 				ulist.innerHTML = '';
@@ -113,16 +131,16 @@
 				}
 				
 				if (ulist.childElementCount == 1) {
-					if (trusted)
+					if (inputTrusted)
 						abrirEnlace();
 
-					else if (trusted === undefined) {
+					else if (inputTrusted === undefined) {
 						if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
-							trusted = true;
+							inputTrusted = true;
 							ulist.lastChild.firstChild.onclick();
 						}
 						else {
-							trusted = false;
+							inputTrusted = false;
 							formCadena.onkeyup = function() {
 								if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) abrirEnlace();
 							};
