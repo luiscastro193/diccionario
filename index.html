@@ -23,6 +23,7 @@
 			var errorMsg = document.getElementById("errorMsg");
 			var formCadena = document.getElementById("formCadena");
 			var ulist = document.getElementById("enlaces");
+			var trusted, trustChecked;
 			
 			function readText(filePath) {
 				formCadena.disabled = true;
@@ -91,10 +92,6 @@
 				if (ulist.lastChild) ulist.lastChild.firstChild.click();
 			}
 			
-			function consultaFallback(){
-				if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) abrirEnlace();
-			}
-			
 			function buscarPalabra(cadena) {
 				"use strict";
 				ulist.innerHTML = '';
@@ -116,11 +113,21 @@
 				}
 				
 				if (ulist.childElementCount == 1) {
-					if (!window.open(ulist.lastChild.firstChild.href, "_blank"))
-						formCadena.onkeyup = consultaFallback;
-					else {
-						formCadena.onkeyup = null;
-						ulist.lastChild.firstChild.onclick();
+					if (trusted)
+						abrirEnlace();
+
+					else if (!trustChecked) {
+						if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
+							trusted = true;
+							ulist.lastChild.firstChild.onclick();
+						}
+						else {
+							trusted = false;
+							formCadena.onkeyup = function() {
+								if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) abrirEnlace();
+							};
+						}
+						trustChecked = true;
 					}
 				}
 			}
