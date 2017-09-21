@@ -132,7 +132,7 @@
 					}
 				}
 				
-				if (ulist.childElementCount == 1) {
+				if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) {
 					if (inputTrusted)
 						abrirEnlace();
 
