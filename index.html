@@ -5,6 +5,7 @@
 		<title>Diccionario inglés-español</title>
 		<meta name="author" content="Luis Castro Martín">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
 		<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 	</head>
 
@@ -81,7 +82,7 @@
 			}
 			
 			function aniadirPalabras(texto){
-				var expresion = /[^\W\d_]+(?:-[^\W\d_]+)*/g;
+				var expresion = XRegExp("\\pL+(?:-\\pL+)*", 'g');
 				var palabra;
 				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
 			}
