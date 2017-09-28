@@ -48,14 +48,13 @@
 							for (var i = 1; i <= maxPages; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
 									return page.getTextContent().then(function(text){
-										"use strict";
-										for (let item of text.items)
-											aniadirPalabras(item.str);
+										return text.items.map(function(item) { return item.str; }).join('\n');
 									});
 								}));
 							}
 						
-							Promise.all(countPromises).then(function() {
+							Promise.all(countPromises).then(function(texts) {
+								aniadirPalabras(texts.join('\n'));
 								formCadena.disabled = false;
 								formCadena.focus();
 								errorMsg.innerHTML = '';
@@ -80,9 +79,10 @@
 			}
 			
 			function aniadirPalabras(texto){
-				var expresion = XRegExp("\\pL+(?:-\\pL+)*", 'g');
+				var expresion = XRegExp("\\pL+(?:-\r?\n?\\pL+)*", 'g');
 				var palabra;
-				while (palabra = expresion.exec(texto)) diccionario.add(String(palabra).toLowerCase());
+				while (palabra = expresion.exec(texto))
+					diccionario.add(String(palabra).replace(/-\r?\n?/g, '').toLowerCase());
 			}
 			
 			window.addEventListener('focus', function() {
