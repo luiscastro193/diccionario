@@ -82,7 +82,7 @@
 				var expresion = XRegExp("\\pL+(?:-\r?\n?\\pL+)*", 'g');
 				var palabra;
 				while (palabra = expresion.exec(texto))
-					diccionario.add(String(palabra).replace(/-\r?\n?/g, '').toLowerCase());
+					diccionario.add(String(palabra).replace(/-[\r\n]\n?/g, '').toLowerCase());
 			}
 			
 			window.addEventListener('focus', function() {
