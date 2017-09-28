@@ -45,7 +45,7 @@
 							var maxPages = pdf.pdfInfo.numPages;
 							var countPromises = [];
 						
-							for (var i = 1; i <= 1; i++) {
+							for (var i = 1; i <= maxPages; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
 									return page.getTextContent().then(function(text){
 										"use strict";
