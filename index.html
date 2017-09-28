@@ -52,12 +52,12 @@
 										let lastY, str = '';
 								
 										for (let item of text.items) {
-											if (lastY == item.transform[5])
+											if (lastY == item.transform[5] || !lastY)
 												str += item.str;
-											else {
+											else
 												str += '\n' + item.str;
-												lastY = item.transform[5];
-											}
+												
+											lastY = item.transform[5];
 										}
 									
 										return str;
