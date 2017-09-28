@@ -79,7 +79,7 @@
 			}
 			
 			function aniadirPalabras(texto){
-				var expresion = XRegExp("\\pL+(?:-\r?\n?\\pL+)*", 'g');
+				var expresion = XRegExp("\\pL+(?:-[\r\n]*\\pL+)*", 'g');
 				var palabra;
 				while (palabra = expresion.exec(texto))
 					diccionario.add(String(palabra).replace(/-[\r\n]+/g, '').toLowerCase());
