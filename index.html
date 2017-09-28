@@ -45,10 +45,22 @@
 							var maxPages = pdf.pdfInfo.numPages;
 							var countPromises = [];
 						
-							for (var i = 1; i <= maxPages; i++) {
+							for (var i = 1; i <= 1; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
 									return page.getTextContent().then(function(text){
-										return text.items.map(function(item) { return item.str; }).join('\n');
+										"use strict";
+										let lastY, str = '';
+								
+										for (let item of text.items) {
+											if (lastY == item.transform[5])
+												str += item.str;
+											else {
+												str += '\n' + item.str;
+												lastY = item.transform[5];
+											}
+										}
+									
+										return str;
 									});
 								}));
 							}
