@@ -11,7 +11,7 @@
 
 	<body>
 		<p>Diccionario inglés-español</p>
-		<input type="file" onchange="readText(this)" style="width: 100%" autofocus>
+		<input type="file" onchange="readText(this)" onclick="this.value = null" style="width: 100%" autofocus>
 		<p id="errorMsg"></p>
 		<br>
 		<form autocomplete="off" onsubmit="enviar(this); return false">
