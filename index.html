@@ -20,6 +20,7 @@
 		</form>
 		<ul id="enlaces"></ul>
 		<script>
+			"use strict";
 			var diccionario;
 			var errorMsg = document.getElementById("errorMsg");
 			var formCadena = document.getElementById("formCadena");
@@ -48,7 +49,6 @@
 							for (var i = 1; i <= maxPages; i++) {
 								countPromises.push(pdf.getPage(i).then(function(page){
 									return page.getTextContent().then(function(text){
-										"use strict";
 										let lastY, str = '';
 								
 										for (let item of text.items) {
@@ -124,7 +124,6 @@
 			}
 			
 			function buscarPalabra(cadena) {
-				"use strict";
 				ulist.innerHTML = '';
 				
 				for (let palabra of diccionario) {
