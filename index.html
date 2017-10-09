@@ -14,7 +14,7 @@
 		<input type="file" onchange="readText(this)" onclick="this.value = null" style="width: 100%" autofocus>
 		<p id="errorMsg"></p>
 		<br>
-		<form autocomplete="off" onsubmit="enviar(this); return false">
+		<form autocomplete="off" autocorrect="off" onsubmit="enviar(this); return false">
 			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
 				onfocus="this.value = ''" oninput="buscarPalabra(this.value.toLowerCase())" disabled >
 		</form>
