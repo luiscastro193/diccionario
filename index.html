@@ -133,7 +133,7 @@
 						var newItem = document.createElement("li");
 						
 						a.textContent = palabra;
-						a.setAttribute('href', "http://www.wordreference.com/enes/" + palabra);
+						a.setAttribute('href', "http://www.wordreference.com/es/translation.asp?tranword=" + palabra);
 						a.setAttribute('target', "_blank");
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
@@ -169,11 +169,11 @@
 					var a3 = document.createElement("a");
 				
 					a1.textContent = "Oxford";
-					a2.textContent = "UrbanDictionary";
+					a2.textContent = "Wiktionary";
 					a3.textContent = "Google";
 				
 					a1.setAttribute('href', "https://en.oxforddictionaries.com/search?filter=noad&query=" + palabra);
-					a2.setAttribute('href', "http://www.urbandictionary.com/define.php?term=" + palabra);
+					a2.setAttribute('href', "https://en.wiktionary.org/wiki/" + palabra);
 					a3.setAttribute('href', "https://www.google.es/search?q=" + palabra);
 				
 					a1.setAttribute('target', "_blank");
