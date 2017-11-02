@@ -138,6 +138,8 @@
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
 						ulist.appendChild(newItem);
+						
+						if (ulist.childElementCount >= 20) break;
 					}
 				}
 				
