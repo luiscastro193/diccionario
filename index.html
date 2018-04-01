@@ -8,15 +8,6 @@
 		<link rel="icon" href="favicon.ico">
 		<script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
 		<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-		<style>
-			.enfocado > :not(:first-child), .desenfocado > :not(:first-child) {
-				visibility: hidden;
-			}
-			
-			.enfocado:hover > *, .seleccionado > * {
-				visibility: visible;
-			}
-		</style>
 	</head>
 
 	<body>
@@ -162,19 +153,15 @@
 						a.textContent = palabra;
 						a.setAttribute('href', referencias[refFavorita.value] + palabra);
 						a.setAttribute('target', "_blank");
-						a.setAttribute('onclick', "this.parentElement.className = 'seleccionado'");
-						a.setAttribute('onmouseenter', "if (this.parentElement.className != 'seleccionado') this.parentElement.className = 'enfocado'");
-						newItem.className = 'desenfocado';
-						newItem.setAttribute('onmouseleave', "if (this.className != 'seleccionado') this.className = 'desenfocado'");
+						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
-						aniadirLinksExtra(newItem, palabra);
 						ulist.appendChild(newItem);
 						
 						if (ulist.childElementCount >= 20) break;
 					}
 				}
 				
-				if (ulist.childElementCount == 1 && ulist.lastChild.className != 'seleccionado') {
+				if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) {
 					if (inputTrusted)
 						abrirEnlace();
 
@@ -186,7 +173,7 @@
 						else {
 							inputTrusted = false;
 							formCadena.onkeyup = function() {
-								if (ulist.childElementCount == 1 && ulist.lastChild.className != 'seleccionado') abrirEnlace();
+								if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) abrirEnlace();
 							};
 						}
 					}
@@ -201,7 +188,6 @@
 							a.textContent = "en " + referencia;
 							a.setAttribute('href', referencias[referencia] + palabra);
 							a.setAttribute('target', "_blank");
-							a.setAttribute('onclick', "this.parentElement.className = 'seleccionado'");
 							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
 							item.appendChild(a);
 						}
