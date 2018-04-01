@@ -201,6 +201,7 @@
 							a.textContent = "en " + referencia;
 							a.setAttribute('href', referencias[referencia] + palabra);
 							a.setAttribute('target', "_blank");
+							a.setAttribute('onclick', "this.parentElement.className = 'seleccionado'");
 							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
 							item.appendChild(a);
 						}
