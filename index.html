@@ -28,6 +28,16 @@
 			var ulist = document.getElementById("enlaces");
 			var inputTrusted, submitTrusted;
 			
+			var referencias = {
+				WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
+				Cambridge: "https://dictionary.cambridge.org/es/buscar/english/direct/?q=",
+				Collins: "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=",
+				Wiktionary: "https://en.wiktionary.org/w/index.php?search=",
+				Google: "https://www.google.es/search?q="
+			};
+			
+			var refFavorita = 'WordReference';
+			
 			function readText(filePath) {
 				formCadena.disabled = true;
 				errorMsg.innerHTML = "Cargando...";
@@ -133,7 +143,7 @@
 						var newItem = document.createElement("li");
 						
 						a.textContent = palabra;
-						a.setAttribute('href', "http://www.wordreference.com/es/translation.asp?tranword=" + palabra);
+						a.setAttribute('href', referencias[refFavorita] + palabra);
 						a.setAttribute('target', "_blank");
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
@@ -164,34 +174,16 @@
 			
 			function aniadirLinksExtra(item, palabra) {
 				if (item.childElementCount <= 1) {
-					var a1 = document.createElement("a");
-					var a2 = document.createElement("a");
-					var a3 = document.createElement("a");
-					var a4 = document.createElement("a");
-					
-					a1.textContent = "en Cambridge";
-					a2.textContent = "en Collins";
-					a3.textContent = "en Wiktionary";
-					a4.textContent = "en Google";
-					
-					a1.setAttribute('href', "https://dictionary.cambridge.org/es/buscar/english/direct/?q=" + palabra);
-					a2.setAttribute('href', "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=" + palabra);
-					a3.setAttribute('href', "https://en.wiktionary.org/w/index.php?search=" + palabra);
-					a4.setAttribute('href', "https://www.google.es/search?q=" + palabra);
-					
-					a1.setAttribute('target', "_blank");
-					a2.setAttribute('target', "_blank");
-					a3.setAttribute('target', "_blank");
-					a4.setAttribute('target', "_blank");
-					
-					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
-					item.appendChild(a1);
-					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
-					item.appendChild(a2);
-					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
-					item.appendChild(a3);
-					item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
-					item.appendChild(a4);
+					for (let referencia in referencias) {
+						if (referencia != refFavorita) {
+							var a = document.createElement("a");
+							a.textContent = "en " + referencia;
+							a.setAttribute('href', referencias[referencia] + palabra);
+							a.setAttribute('target', "_blank");
+							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
+							item.appendChild(a);
+						}
+					}
 				}
 			}
 		</script>
