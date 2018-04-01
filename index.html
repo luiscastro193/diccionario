@@ -18,6 +18,14 @@
 		<form autocomplete="off" autocorrect="off" onsubmit="enviar(this); return false">
 			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
 				onfocus="this.value = ''" oninput="buscarPalabra(this.value.toLowerCase())" disabled >
+			<span>&nbspen&nbsp</span>
+			<select id="refFavorita">
+				<option>WordReference</option>
+				<option>Cambridge</option>
+				<option>Collins</option>
+				<option>Wiktionary</option>
+				<option>Google</option>
+			</select>
 		</form>
 		<ul id="enlaces"></ul>
 		<script>
@@ -36,7 +44,7 @@
 				Google: "https://www.google.es/search?q="
 			};
 			
-			var refFavorita = 'WordReference';
+			var refFavorita = document.getElementById("refFavorita");
 			
 			function readText(filePath) {
 				formCadena.disabled = true;
@@ -143,7 +151,7 @@
 						var newItem = document.createElement("li");
 						
 						a.textContent = palabra;
-						a.setAttribute('href', referencias[refFavorita] + palabra);
+						a.setAttribute('href', referencias[refFavorita.value] + palabra);
 						a.setAttribute('target', "_blank");
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
 						newItem.appendChild(a);
@@ -175,7 +183,7 @@
 			function aniadirLinksExtra(item, palabra) {
 				if (item.childElementCount <= 1) {
 					for (let referencia in referencias) {
-						if (referencia != refFavorita) {
+						if (referencia != refFavorita.value) {
 							var a = document.createElement("a");
 							a.textContent = "en " + referencia;
 							a.setAttribute('href', referencias[referencia] + palabra);
