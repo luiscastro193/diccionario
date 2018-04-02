@@ -12,14 +12,14 @@
 
 	<body>
 		<p>Diccionario inglés-español</p>
-		<input type="file" onchange="readText(this)" onclick="this.value = null" style="width: 100%" autofocus>
+		<input type="file" tabindex="4" onchange="readText(this)" onclick="this.value = null" style="width: 100%" autofocus>
 		<p id="errorMsg"></p>
 		<br>
 		<form autocomplete="off" autocorrect="off" onsubmit="enviar(this); return false">
-			<input type="text" id="formCadena" accesskey='s' onmouseenter="this.focus()"
+			<input type="text" id="formCadena" tabindex="1" accesskey='s' onmouseenter="this.focus()"
 				onfocus="this.value = ''" oninput="buscarPalabra(this.value.toLowerCase())" disabled >
 			<span>&nbspen&nbsp</span>
-			<select id="refFavorita" tabindex="-1">
+			<select id="refFavorita" tabindex="5">
 				<option>WordReference</option>
 				<option>Cambridge</option>
 				<option>Collins</option>
@@ -151,9 +151,10 @@
 						var newItem = document.createElement("li");
 						
 						a.textContent = palabra;
-						a.setAttribute('href', referencias[refFavorita.value] + palabra);
-						a.setAttribute('target', "_blank");
+						a.href = referencias[refFavorita.value] + palabra;
+						a.target = "_blank";
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentElement, this.textContent)");
+						a.tabIndex = 3;
 						newItem.appendChild(a);
 						ulist.appendChild(newItem);
 						
@@ -186,8 +187,9 @@
 						if (referencia != refFavorita.value) {
 							var a = document.createElement("a");
 							a.textContent = "en " + referencia;
-							a.setAttribute('href', referencias[referencia] + palabra);
-							a.setAttribute('target', "_blank");
+							a.href = referencias[referencia] + palabra;
+							a.target = "_blank";
+							a.tabIndex = 2;
 							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
 							item.appendChild(a);
 						}
