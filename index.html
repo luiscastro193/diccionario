@@ -129,7 +129,7 @@
 					abrirEnlace();
 
 				else if (submitTrusted === undefined && ulist.lastChild) {
-					if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
+					if (window.open(ulist.lastChild.firstChild.href, "_blank", "noopener")) {
 						submitTrusted = true;
 						ulist.lastChild.firstChild.onclick();
 					}
@@ -153,6 +153,7 @@
 						a.textContent = palabra;
 						a.href = referencias[refFavorita.value] + palabra;
 						a.target = "_blank";
+						a.rel = "noopener";
 						a.setAttribute('onclick', "aniadirLinksExtra(this.parentNode, this.textContent)");
 						a.tabIndex = 3;
 						newItem.appendChild(a);
@@ -167,7 +168,7 @@
 						abrirEnlace();
 
 					else if (inputTrusted === undefined) {
-						if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
+						if (window.open(ulist.lastChild.firstChild.href, "_blank", "noopener")) {
 							inputTrusted = true;
 							ulist.lastChild.firstChild.onclick();
 						}
@@ -189,6 +190,7 @@
 							a.textContent = "en " + referencia;
 							a.href = referencias[referencia] + palabra;
 							a.target = "_blank";
+							a.rel = "noopener";
 							a.tabIndex = 2;
 							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
 							item.appendChild(a);
