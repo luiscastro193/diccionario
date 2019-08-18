@@ -67,7 +67,7 @@
 				
 				if (fileName.substr(fileName.lastIndexOf('.')+1).toLowerCase() == "pdf") {
 					reader.onload = function(event) {
-						pdfjsLib.getDocument(event.target.result).then(function(pdf) {
+						pdfjsLib.getDocument(event.target.result).promise.then(function(pdf) {
 							var maxPages = pdf.numPages;
 							var countPromises = [];
 						
