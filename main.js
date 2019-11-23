@@ -125,7 +125,7 @@ function updateResults() {
 	let matches = dictionary.filter(word => word.includes(searchString));
 	results.append(...matches.map(toListItem));
 	
-	if (results.childElementCount == 1 && results.lastChild.childElementCount <= 1)
+	if (results.childElementCount == 1)
 		openLast();
 }
 
