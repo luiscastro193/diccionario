@@ -116,7 +116,8 @@ function toListItem(word) {
 }
 
 function openLast() {
-	if (results.lastChild) results.lastChild.firstChild.click();
+	if (results.lastChild)
+		results.lastChild.firstChild.click();
 }
 
 function updateResults() {
@@ -135,6 +136,6 @@ favRef.onchange = updateResults;
 document.querySelector('form').onsubmit = event => {
 	event.preventDefault();	
 	openLast();
-}
+};
 
 window.addEventListener('focus', () => searchInput.focus());
