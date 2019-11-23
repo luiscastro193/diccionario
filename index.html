@@ -4,28 +4,36 @@
 		<meta charset="utf-8">
 		<title>Diccionario inglés-español</title>
 		<meta name="author" content="Luis Castro Martín">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="icon" href="favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap" rel="stylesheet">
-		<script src="https://unpkg.com/xregexp/xregexp-all.js" async></script>
-		<script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js" async></script>
+		<script src="main.js" defer></script>
+		<script src="https://unpkg.com/xregexp/xregexp-all.js" meta-id="XRegExp" async></script>
+		<script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js" meta-id="pdfjsLib" async></script>
 		<style>
 			* {
 				font-family: 'Lexend Deca', sans-serif;
+			}
+			
+			input[type=file] {
+				width: 100%;
+			}
+			
+			a {
+				margin-right: 1em;
 			}
 		</style>
 	</head>
 
 	<body>
 		<p>Diccionario inglés-español</p>
-		<input type="file" onchange="readText(this)" onclick="this.value = null" style="width: 100%" autofocus>
+		<input type="file" onclick="this.value = null" autofocus>
 		<p id="errorMsg"></p>
 		<br>
-		<form autocomplete="off" autocorrect="off" onsubmit="enviar(this); return false">
-			<input type="search" id="formCadena" tabindex="1" accesskey='s' onmouseenter="this.focus()"
-				onfocus="this.value = ''" oninput="buscarPalabra(this.value.toLowerCase())" disabled >
+		<form autocomplete="off" autocorrect="off">
+			<input type="search" tabindex="1" onmouseenter="this.focus()" onfocus="this.value = ''" disabled >
 			<span>&nbspen&nbsp</span>
-			<select id="refFavorita" tabindex="4">
+			<select id="favRef" tabindex="4">
 				<option>WordReference</option>
 				<option>Cambridge</option>
 				<option>Collins</option>
@@ -33,177 +41,6 @@
 				<option>Google</option>
 			</select>
 		</form>
-		<ul id="enlaces"></ul>
-		<script>
-			"use strict";
-			var diccionario;
-			var errorMsg = document.getElementById("errorMsg");
-			var formCadena = document.getElementById("formCadena");
-			var ulist = document.getElementById("enlaces");
-			var inputTrusted, submitTrusted;
-			
-			var referencias = {
-				WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
-				Cambridge: "https://dictionary.cambridge.org/es/buscar/english/direct/?q=",
-				Collins: "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=",
-				Wiktionary: "https://en.wiktionary.org/w/index.php?search=",
-				Google: "https://www.google.es/search?q="
-			};
-			
-			var refFavorita = document.getElementById("refFavorita");
-			
-			function readText(filePath) {
-				formCadena.disabled = true;
-				errorMsg.innerHTML = "Cargando...";
-				diccionario = new Set();
-				
-				var reader = new FileReader();
-				
-				reader.onerror = function(event) {
-					errorMsg.innerHTML = "Error al cargar el archivo.";
-				};
-				
-				var fileName = filePath.files[0].name;
-				
-				if (fileName.substr(fileName.lastIndexOf('.')+1).toLowerCase() == "pdf") {
-					reader.onload = function(event) {
-						pdfjsLib.getDocument(event.target.result).promise.then(function(pdf) {
-							var maxPages = pdf.numPages;
-							var countPromises = [];
-						
-							for (var i = 1; i <= maxPages; i++) {
-								countPromises.push(pdf.getPage(i).then(function(page){
-									return page.getTextContent().then(function(text){
-										let lastY, str = '';
-								
-										for (let item of text.items) {
-											if (lastY == item.transform[5] || !lastY)
-												str += item.str;
-											else
-												str += '\n' + item.str;
-												
-											lastY = item.transform[5];
-										}
-									
-										return str;
-									});
-								}));
-							}
-						
-							Promise.all(countPromises).then(function(texts) {
-								aniadirPalabras(texts.join('\n'));
-								formCadena.disabled = false;
-								formCadena.focus();
-								errorMsg.innerHTML = '';
-							});
-						}, function(reason){
-							errorMsg.innerHTML = reason.message;
-						});
-					};
-				
-					reader.readAsArrayBuffer(filePath.files[0]);
-				}
-				else{
-					reader.onload = function(event) {
-						aniadirPalabras(event.target.result);
-						formCadena.disabled = false;
-						formCadena.focus();
-						errorMsg.innerHTML = '';
-					}
-					
-					reader.readAsText(filePath.files[0]);
-				}
-			}
-			
-			function aniadirPalabras(texto){
-				var expresion = XRegExp("\\pL+(?:-[\r\n]*\\pL+)*", 'g');
-				var palabra;
-				while (palabra = expresion.exec(texto))
-					diccionario.add(String(palabra).replace(/-[\r\n]+/g, '').toLowerCase());
-			}
-			
-			window.addEventListener('focus', function() {
-				formCadena.focus();
-			});
-			
-			function abrirEnlace(){
-				if (ulist.lastChild) ulist.lastChild.firstChild.click();
-			}
-			
-			function enviar(form) {
-				if (submitTrusted)
-					abrirEnlace();
-
-				else if (submitTrusted === undefined && ulist.lastChild) {
-					if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
-						submitTrusted = true;
-						ulist.lastChild.firstChild.onclick();
-					}
-					else {
-						submitTrusted = false;
-						form.onkeyup = function(event) {
-							if (event.keyCode == 13) abrirEnlace();
-						};
-					}
-				}
-			}
-			
-			function buscarPalabra(cadena) {
-				ulist.innerHTML = '';
-				
-				for (let palabra of diccionario) {
-					if (palabra.includes(cadena)) {
-						var a = document.createElement("a");
-						var newItem = document.createElement("li");
-						
-						a.textContent = palabra;
-						a.href = referencias[refFavorita.value] + palabra;
-						a.target = "_blank";
-						a.rel = "noopener";
-						a.setAttribute('onclick', "aniadirLinksExtra(this.parentNode, this.textContent)");
-						a.tabIndex = 3;
-						newItem.appendChild(a);
-						ulist.appendChild(newItem);
-						
-						if (ulist.childElementCount >= 20) break;
-					}
-				}
-				
-				if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) {
-					if (inputTrusted)
-						abrirEnlace();
-
-					else if (inputTrusted === undefined) {
-						if (window.open(ulist.lastChild.firstChild.href, "_blank")) {
-							inputTrusted = true;
-							ulist.lastChild.firstChild.onclick();
-						}
-						else {
-							inputTrusted = false;
-							formCadena.onkeyup = function() {
-								if (ulist.childElementCount == 1 && ulist.lastChild.childElementCount <= 1) abrirEnlace();
-							};
-						}
-					}
-				}
-			}
-			
-			function aniadirLinksExtra(item, palabra) {
-				if (item.childElementCount <= 1) {
-					for (let referencia in referencias) {
-						if (referencia != refFavorita.value) {
-							var a = document.createElement("a");
-							a.textContent = "en " + referencia;
-							a.href = referencias[referencia] + palabra;
-							a.target = "_blank";
-							a.rel = "noopener";
-							a.tabIndex = 2;
-							item.insertAdjacentHTML('beforeend', "&nbsp&nbsp&nbsp");
-							item.appendChild(a);
-						}
-					}
-				}
-			}
-		</script>
+		<ul></ul>
 	</body>
 </html>
