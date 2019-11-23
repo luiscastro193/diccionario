@@ -50,9 +50,8 @@ function fileToText(file) {
 	return new Promise((resolve, reject) => {
 		let reader = new FileReader();
 		reader.onerror = () => reject("Error al cargar el archivo");
-		let fileName = file.name;
 		
-		if (fileName.substr(fileName.lastIndexOf('.')+1).toLowerCase() == "pdf") {
+		if (file.name.substr(file.name.lastIndexOf('.')+1).toLowerCase() == "pdf") {
 			reader.onload = event => getPdfText(event.target.result).then(text => resolve(text)).catch(error => reject(error.message));
 			reader.readAsArrayBuffer(file);
 		}
@@ -123,8 +122,7 @@ function openLast() {
 function updateResults() {
 	results.innerHTML = '';
 	let searchString = searchInput.value.toLowerCase();
-	let matches = dictionary.filter(word => word.includes(searchString));
-	results.append(...matches.map(toListItem));
+	results.append(...dictionary.filter(word => word.includes(searchString)).map(toListItem));
 	
 	if (results.childElementCount == 1)
 		openLast();
