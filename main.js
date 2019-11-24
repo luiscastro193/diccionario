@@ -5,6 +5,7 @@ var searchInput = document.querySelector('input[type=search]');
 var errorMsg = document.querySelector('#errorMsg');
 var results = document.querySelector('ul');
 var favRef = document.querySelector('#favRef');
+const max_results = 50;
 
 var references = {
 	WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
@@ -122,7 +123,12 @@ function openLast() {
 function updateResults() {
 	results.innerHTML = '';
 	let searchString = searchInput.value.toLowerCase();
-	results.append(...dictionary.filter(word => word.includes(searchString)).map(toListItem));
+	let matches = dictionary.filter(word => word.includes(searchString));
+	
+	if (matches.length > max_results)
+		matches.length = max_results;
+	
+	results.append(...matches.map(toListItem));
 	
 	if (results.childElementCount == 1)
 		openLast();
