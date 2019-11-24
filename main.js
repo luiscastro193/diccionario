@@ -130,7 +130,7 @@ function updateResults() {
 	
 	results.append(...matches.map(toListItem));
 	
-	if (results.childElementCount == 1)
+	if (matches.length == 1)
 		openLast();
 }
 
