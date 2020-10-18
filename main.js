@@ -9,7 +9,7 @@ const max_results = 50;
 
 var references = {
 	WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
-	Cambridge: "https://dictionary.cambridge.org/es/buscar/english/direct/?q=",
+	Cambridge: "https://dictionary.cambridge.org/es/buscar/direct/?datasetsearch=english&q=",
 	Collins: "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=",
 	Wiktionary: "https://en.wiktionary.org/w/index.php?search=",
 	Google: "https://www.google.es/search?q="
