@@ -63,9 +63,8 @@ function fileToText(file) {
 	});
 }
 
-async function extractWords(text) {
-	await waitForGlobal('XRegExp');
-	let expression = XRegExp("\\pL+(?:-[\r\n]*\\pL+)*", 'g');
+function extractWords(text) {
+	let expression = /\p{L}+(?:-[\r\n]*\p{L}+)*/gu;
 	return [...new Set(text.replace(/-[\r\n]+/g, '').toLowerCase().match(expression))];
 }
 
@@ -73,8 +72,8 @@ function loadFile() {
 	searchInput.disabled = true;
 	errorMsg.textContent = "Cargando...";
 	
-	fileToText(fileInput.files[0]).then(async text => {
-		dictionary = await extractWords(text);
+	fileToText(fileInput.files[0]).then(text => {
+		dictionary = extractWords(text);
 		searchInput.disabled = false;
 		searchInput.focus();
 		errorMsg.textContent = '';
