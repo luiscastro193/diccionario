@@ -24,26 +24,12 @@ function waitForGlobal(name) {
 	});
 }
 
-function fixPdfText(text) {
-	let lastY, str = '';
-								
-	for (let item of text.items) {
-		if (lastY == item.transform[5] || !lastY)
-			str += item.str;
-		else
-			str += '\n' + item.str;
-			
-		lastY = item.transform[5];
-	}
-
-	return str;
-};
-
 async function getPdfText(file) {
 	await waitForGlobal('pdfjsLib');
 	let pdf = await pdfjsLib.getDocument(file).promise;
 	let pages = Array.from({length: pdf.numPages}, (_, i) => i + 1)
-		.map(index => pdf.getPage(index).then(page => page.getTextContent()).then(fixPdfText));
+		.map(index => pdf.getPage(index).then(page => page.getTextContent())
+			.then(text => text.items.map(item => item.str).join('\n')));
 	return (await Promise.all(pages)).join('\n');
 } 
 
