@@ -4,15 +4,25 @@ var fileInput = document.querySelector('input[type=file]');
 var searchInput = document.querySelector('input[type=search]');
 var errorMsg = document.querySelector('#errorMsg');
 var results = document.querySelector('ul');
+var lang = document.querySelector('#lang');
 var favRef = document.querySelector('#favRef');
 const max_results = 50;
 
 var references = {
-	WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
-	Cambridge: "https://dictionary.cambridge.org/es/buscar/direct/?datasetsearch=english&q=",
-	Collins: "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=",
-	Wiktionary: "https://en.wiktionary.org/w/index.php?search=",
-	Google: "https://www.google.es/search?q="
+	"inglés": {
+		WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
+		Cambridge: "https://dictionary.cambridge.org/es/buscar/direct/?datasetsearch=english&q=",
+		Collins: "https://www.collinsdictionary.com/es/buscar/?dictCode=english&q=",
+		Wiktionary: "https://en.wiktionary.org/w/index.php?search=",
+		Google: "https://www.google.es/search?q="
+	},
+	"alemán": {
+		Pons: "https://es.pons.com/traducci%C3%B3n?l=dees&q=",
+		Linguee: "https://www.linguee.de/deutsch-spanisch/search?query=",
+		WordReference: "https://www.wordreference.com/redirect/translation.aspx?dict=deen&w=",
+		Wiktionary: "https://de.wiktionary.org/w/index.php?search=",
+		Google: "https://www.google.es/search?q="
+	}
 };
 
 function waitForGlobal(name) {
@@ -73,7 +83,7 @@ if (fileInput.value)
 
 function addExtraLinks(item, word) {
 	if (item.childElementCount <= 1) {
-		item.append(...Object.entries(references).filter(([key, _]) => key != favRef.value).map(([key, reference]) => {
+		item.append(...Object.entries(references[lang.value]).filter(([key, _]) => key != favRef.value).map(([key, reference]) => {
 			let a = document.createElement("a");
 			a.textContent = "en " + key;
 			a.href = reference + word;
@@ -90,7 +100,7 @@ function toListItem(word) {
 	let a = document.createElement("a");
 	
 	a.textContent = word;
-	a.href = references[favRef.value] + word;
+	a.href = references[lang.value][favRef.value] + word;
 	a.target = "_blank";
 	a.rel = "noopener";
 	a.onclick = () => addExtraLinks(newItem, word);
@@ -107,6 +117,10 @@ function openLast() {
 
 function updateResults() {
 	results.innerHTML = '';
+	
+	if (searchInput.disabled)
+		return;
+	
 	let searchString = searchInput.value.toLowerCase();
 	let matches = dictionary.filter(word => word.includes(searchString));
 	
@@ -121,6 +135,19 @@ function updateResults() {
 
 searchInput.oninput = updateResults;
 favRef.onchange = updateResults;
+
+function toOption(reference) {
+	let option = document.createElement("option");
+	option.textContent = reference;
+	return option;
+}
+
+lang.onchange = () => {
+	favRef.innerHTML = '';
+	favRef.append(...Object.keys(references[lang.value]).map(toOption));
+	updateResults();
+	document.title = `Diccionario ${lang.value}-español`;
+}
 
 document.querySelector('form').onsubmit = event => {
 	event.preventDefault();	

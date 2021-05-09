@@ -1,7 +1,7 @@
 Diccionario
 ===========
 
-Aplicación web para traducir lo más rápido posible de inglés a español.
+Aplicación web para traducir lo más rápido posible al español.
 
 Enlace: https://luiscastro193.github.io/diccionario/
 
