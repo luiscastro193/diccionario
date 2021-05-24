@@ -149,7 +149,7 @@ lang.onchange = () => {
 	document.title = `Diccionario ${lang.value}-español`;
 }
 
-if (lang.value != "inglés")
+if (lang.value != lang.firstChild.textContent)
 	lang.onchange();
 
 document.querySelector('form').onsubmit = event => {
