@@ -18,9 +18,16 @@ var references = {
 	},
 	"alemán": {
 		Pons: "https://es.pons.com/traducci%C3%B3n?l=dees&q=",
-		Linguee: "https://www.linguee.de/deutsch-spanisch/search?query=",
+		Linguee: "https://www.linguee.es/espanol-aleman/search?source=aleman&query=",
 		WordReference: "https://www.wordreference.com/redirect/translation.aspx?dict=deen&w=",
 		Wiktionary: "https://de.wiktionary.org/w/index.php?search=",
+		Google: "https://www.google.es/search?q="
+	},
+	"italiano": {
+		WordReference: "https://www.wordreference.com/redirect/translation.aspx?dict=ites&w=",
+		WordReferenceEn: "https://www.wordreference.com/redirect/translation.aspx?dict=iten&w=",
+		Contexto: "https://context.reverso.net/translation/italian-english/",
+		Linguee: "https://www.linguee.com/english-italian/search?source=italian&query=",
 		Google: "https://www.google.es/search?q="
 	}
 };
