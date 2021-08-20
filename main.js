@@ -26,7 +26,7 @@ var references = {
 	"italiano": {
 		WordReference: "https://www.wordreference.com/redirect/translation.aspx?dict=ites&w=",
 		WordReferenceEn: "https://www.wordreference.com/redirect/translation.aspx?dict=iten&w=",
-		Contexto: "https://context.reverso.net/translation/italian-english/",
+		Reverso: "https://context.reverso.net/traduccion/italiano-ingles/",
 		Linguee: "https://www.linguee.com/english-italian/search?source=italian&query=",
 		Google: "https://www.google.es/search?q="
 	}
