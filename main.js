@@ -1,14 +1,14 @@
 "use strict";
-var dictionary;
-var fileInput = document.querySelector('input[type=file]');
-var searchInput = document.querySelector('input[type=search]');
-var errorMsg = document.querySelector('#errorMsg');
-var results = document.querySelector('ul');
-var lang = document.querySelector('#lang');
-var favRef = document.querySelector('#favRef');
+let dictionary;
+let fileInput = document.querySelector('input[type=file]');
+let searchInput = document.querySelector('input[type=search]');
+let errorMsg = document.querySelector('#errorMsg');
+let results = document.querySelector('ul');
+let lang = document.querySelector('#lang');
+let favRef = document.querySelector('#favRef');
 const max_results = 50;
 
-var references = {
+let references = {
 	"inglés": {
 		WordReference: "https://www.wordreference.com/es/translation.asp?tranword=",
 		Cambridge: "https://dictionary.cambridge.org/es/buscar/direct/?datasetsearch=english&q=",
