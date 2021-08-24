@@ -67,7 +67,7 @@ function fileToText(file) {
 }
 
 function extractWords(text) {
-	let expression = /\p{L}+(?:\p{Pd}[\r\n]*\p{L}+)*/gu;
+	let expression = /\p{L}+(?:\p{Pd}\p{L}+)*/gu;
 	return [...new Set(text.replace(/\p{Pd}[\r\n]+/gu, '').replace(/\p{Pd}/gu, '-').toLowerCase().match(expression))];
 }
 
