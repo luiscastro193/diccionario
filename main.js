@@ -55,7 +55,7 @@ function fileToText(file) {
 		let reader = new FileReader();
 		reader.onerror = () => reject("Error al cargar el archivo");
 		
-		if (file.name.substring(file.name.lastIndexOf('.')+1).toLowerCase() == "pdf") {
+		if (file.name.substring(file.name.toLowerCase().endsWith(".pdf")) {
 			reader.onload = event => getPdfText(event.target.result).then(text => resolve(text)).catch(error => reject(error.message));
 			reader.readAsArrayBuffer(file);
 		}
