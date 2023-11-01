@@ -33,8 +33,9 @@ let references = {
 };
 
 const pdfjsDistPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/+esm").then(module => {
-	module.default.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.worker.min.js";
-	return module.default;
+	const pdfjsLib = module.default;
+	pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+	return pdfjsLib;
 });
 
 async function getPdfText(file) {
