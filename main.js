@@ -32,17 +32,13 @@ let references = {
 	}
 };
 
-function waitForGlobal(name) {
-	return new Promise(resolve => {
-		if (window[name])
-			return resolve();
-		
-		document.head.querySelector(`[data-id=${name}]`).addEventListener('load', () => resolve(), {once: true});
-	});
-}
+const pdfjsDistPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/+esm").then(module => {
+	module.default.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.worker.min.js";
+	return module.default;
+});
 
 async function getPdfText(file) {
-	await waitForGlobal('pdfjsLib');
+	const pdfjsLib = await pdfjsDistPromise;
 	let pdf = await pdfjsLib.getDocument(file).promise;
 	let pages = Array.from({length: pdf.numPages}, (_, i) => i + 1)
 		.map(index => pdf.getPage(index).then(page => page.getTextContent())
