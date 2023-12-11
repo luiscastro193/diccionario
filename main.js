@@ -32,9 +32,9 @@ let references = {
 	}
 };
 
-const pdfjsDistPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/+esm").then(module => {
-	const pdfjsLib = module.default;
-	pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+const pdfjsDistPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.min.mjs").then(module => {
+	const pdfjsLib = module;
+	pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 	return pdfjsLib;
 });
 
