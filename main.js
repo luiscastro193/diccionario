@@ -32,14 +32,14 @@ let references = {
 	}
 };
 
-const pdfjsDistPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.min.mjs").then(module => {
+const pdfjsLibtPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.min.mjs").then(module => {
 	const pdfjsLib = module;
 	pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 	return pdfjsLib;
 });
 
 async function getPdfText(file) {
-	const pdfjsLib = await pdfjsDistPromise;
+	const pdfjsLib = await pdfjsLibPromise;
 	let pdf = await pdfjsLib.getDocument(file).promise;
 	let pages = Array.from({length: pdf.numPages}, (_, i) => i + 1)
 		.map(index => pdf.getPage(index).then(page => page.getTextContent())
