@@ -37,12 +37,14 @@ const pdfjsLibPromise = import("https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pd
 	return pdfjsLib;
 });
 
+async function getPageText(i, pdf) {
+	return (await (await pdf.getPage(i+1)).getTextContent()).items.map(item => item.str).join('\n');
+}
+
 async function getPdfText(file) {
 	const pdfjsLib = await pdfjsLibPromise;
 	let pdf = await pdfjsLib.getDocument(file).promise;
-	let pages = Array.from({length: pdf.numPages}, (_, i) => i + 1)
-		.map(index => pdf.getPage(index).then(page => page.getTextContent())
-			.then(text => text.items.map(item => item.str).join('\n')));
+	let pages = Array.from({length: pdf.numPages}, (_, i) => getPageText(i, pdf));
 	return (await Promise.all(pages)).join('\n');
 } 
 
