@@ -126,7 +126,7 @@ function updateResults() {
 	if (searchInput.disabled)
 		return;
 	
-	let searchString = searchInput.value.toLowerCase();
+	let searchString = searchInput.value.normalize().toLowerCase();
 	let matches = dictionary.filter(word => word.includes(searchString));
 	
 	if (matches.length > max_results)
