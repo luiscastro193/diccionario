@@ -11,6 +11,10 @@ input[type=file] {
 	width: 100%;
 }
 
+input[type=search] {
+	max-width: 10em;
+}
+
 a {
 	margin-right: 1em;
 }
