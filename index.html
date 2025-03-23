@@ -1,55 +1,32 @@
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="utf-8">
-		<title>Diccionario inglés-español</title>
-		<meta name="author" content="Luis Castro Martín">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="icon" href="https://luiscastro193.github.io/favicon.svg" type="image/svg+xml">
-		<link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
-		<script type="module" src="main.js"></script>
-		<script type="module" async src="https://luiscastro193.github.io/stats.js"></script>
-		<style>
-			* {
-				font-family: 'Lexend', sans-serif;
-			}
-			
-			body {
-				background-color: black;
-				filter: invert(1);
-			}
-			
-			input[type=file] {
-				width: 100%;
-			}
-			
-			a {
-				margin-right: 1em;
-			}
-			
-			ul {
-				padding: 0px;
-				list-style-position: inside;
-			}
-		</style>
-	</head>
-
-	<body>
-		<p>Diccionario <select id="lang" tabindex="4"><option>inglés</option><option>alemán</option><option>italiano</option></select>-español</p>
-		<input name="file" type="file" onclick="this.value = null" autofocus>
-		<p id="errorMsg"></p>
-		<br>
-		<form autocomplete="off" autocorrect="off">
-			<input name="search" type="search" tabindex="1" onmouseenter="this.focus()" onfocus="this.value = ''" disabled >
-			<span>&nbspen&nbsp</span>
-			<select id="favRef" tabindex="4">
-				<option>WordReference</option>
-				<option>Cambridge</option>
-				<option>Collins</option>
-				<option>Wiktionary</option>
-				<option>Google</option>
-			</select>
-		</form>
-		<ul></ul>
-	</body>
+<head>
+	<meta charset="utf-8">
+	<title>Diccionario inglés-español</title>
+	<meta name="author" content="Luis Castro Martín">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" href="https://luiscastro193.github.io/favicon.svg" type="image/svg+xml">
+	<link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	<script type="module" src="main.js"></script>
+	<script type="module" async src="https://luiscastro193.github.io/stats.js"></script>
+</head>
+<body>
+	<p>Diccionario <select id="lang" tabindex="4"><option>inglés</option><option>alemán</option><option>italiano</option></select>-español</p>
+	<input name="file" type="file" onclick="this.value = null" autofocus>
+	<p id="errorMsg"></p>
+	<br>
+	<form autocomplete="off" autocorrect="off">
+		<input name="search" type="search" tabindex="1" onmouseenter="this.focus()" onfocus="this.value = ''" disabled >
+		<span>&nbspen&nbsp</span>
+		<select id="favRef" tabindex="4">
+			<option>WordReference</option>
+			<option>Cambridge</option>
+			<option>Collins</option>
+			<option>Wiktionary</option>
+			<option>Google</option>
+		</select>
+	</form>
+	<ul></ul>
+</body>
 </html>

@@ -1,0 +1,21 @@
+* {
+	font-family: InterVariable, sans-serif;
+}
+
+body {
+	background-color: black;
+	filter: invert(1);
+}
+
+input[type=file] {
+	width: 100%;
+}
+
+a {
+	margin-right: 1em;
+}
+
+ul {
+	padding: 0px;
+	list-style-position: inside;
+}
