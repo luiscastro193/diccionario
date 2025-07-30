@@ -48,20 +48,8 @@ async function getPdfText(file) {
 	return (await Promise.all(pages)).join('\n');
 } 
 
-function fileToText(file) {
-	return new Promise((resolve, reject) => {
-		let reader = new FileReader();
-		reader.onerror = () => reject("Error al cargar el archivo");
-		
-		if (file.name.toLowerCase().endsWith(".pdf")) {
-			reader.onload = event => getPdfText(event.target.result).then(text => resolve(text)).catch(error => reject(error.message));
-			reader.readAsArrayBuffer(file);
-		}
-		else {
-			reader.onload = event => resolve(event.target.result);
-			reader.readAsText(file);
-		}
-	});
+async function fileToText(file) {
+	return file.name.toLowerCase().endsWith(".pdf") ? getPdfText(await file.arrayBuffer()) : file.text();
 }
 
 function extractWords(text) {
