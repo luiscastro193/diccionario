@@ -81,7 +81,6 @@ function addExtraLinks(item, word) {
 			a.textContent = "en " + key;
 			a.href = reference + word;
 			a.target = "_blank";
-			a.rel = "noopener";
 			a.tabIndex = 2;
 			return a;
 		}));
@@ -95,7 +94,6 @@ function toListItem(word) {
 	a.textContent = word;
 	a.href = references[lang.value][favRef.value] + word;
 	a.target = "_blank";
-	a.rel = "noopener";
 	a.onclick = () => addExtraLinks(newItem, word);
 	a.tabIndex = 3;
 	
