@@ -21,10 +21,13 @@ async function getPageText(i, pdf) {
 
 async function getPdfText(file) {
 	const pdfjsLib = await pdfjsLibPromise;
-	let pdf = await pdfjsLib.getDocument(file).promise;
-	let pages = Array.from({length: pdf.numPages}, (_, i) => getPageText(i, pdf));
-	return (await Promise.all(pages)).join('\n');
-} 
+	let task = pdfjsLib.getDocument({data: file});
+	try {
+		let pdf = await task.promise;
+		let pages = Array.from({length: pdf.numPages}, (_, i) => getPageText(i, pdf));
+		return (await Promise.all(pages)).join('\n');
+	} finally {task.destroy()}
+}
 
 async function fileToText(file) {
 	return file.name.toLowerCase().endsWith(".pdf") ? getPdfText(await file.arrayBuffer()) : file.text();
